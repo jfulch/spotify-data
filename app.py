@@ -9,6 +9,7 @@ import time
 from spotify_analysis.artist_analysis import get_top_artists, analyze_genre_distribution
 from spotify_analysis.track_analysis import get_top_tracks, analyze_recent_plays
 from spotify_analysis.mood_analysis import analyze_music_mood
+from spotify_analysis.obscurity_score import calculate_obscurity_score
 
 # Load environment variables
 load_dotenv()
@@ -52,34 +53,42 @@ def callback():
 
 @app.route('/dashboard')
 def dashboard():
-    # Check if user is logged in
+    """Redirect to the basics page"""
     if not is_authenticated():
         return redirect(url_for('login'))
-    
+        
+    return redirect(url_for('basics'))
+
+@app.route('/basics')
+def basics():
+    """Display the basics page with top artists, tracks, genres"""
+    if not is_authenticated():
+        return redirect(url_for('login'))
+        
     # Get Spotify client
     sp = get_spotify_client()
     
-    # Get user profile
+    # Get user info
     user_info = sp.current_user()
     
-    # Get analysis data
+    # Get top artists for different time ranges
     top_artists_short = get_top_artists(sp, time_range='short_term')
     top_artists_medium = get_top_artists(sp, time_range='medium_term')
     top_artists_long = get_top_artists(sp, time_range='long_term')
     
-    # Get tracks for different time ranges
+    # Get top tracks
     top_tracks_short = get_top_tracks(sp, time_range='short_term')
     top_tracks_medium = get_top_tracks(sp, time_range='medium_term')
     top_tracks_long = get_top_tracks(sp, time_range='long_term')
     
-    # Get genres - may need to update analyze_genre_distribution to accept time_range
-    top_genres_short = analyze_genre_distribution(sp, time_range='short_term')
+    # Genre analysis - pass the artists list directly
+    top_genres_short = analyze_genre_distribution(top_artists_short)
     
-    # Other data
-    mood = analyze_music_mood(sp)
+    # Recent plays
     recent = analyze_recent_plays(sp)
     
-    return render_template('dashboard.html',
+    return render_template('basics.html',
+                          active_page='basics',
                           user_info=user_info,
                           top_artists_short=top_artists_short,
                           top_artists_medium=top_artists_medium,
@@ -88,8 +97,35 @@ def dashboard():
                           top_tracks_medium=top_tracks_medium,
                           top_tracks_long=top_tracks_long,
                           top_genres_short=top_genres_short,
-                          mood=mood,
                           recent=recent)
+
+@app.route('/music-dna')
+def music_dna():
+    """Display the Music DNA page with audio features, mood, uniqueness"""
+    if not is_authenticated():
+        return redirect(url_for('login'))
+        
+    # Get Spotify client
+    sp = get_spotify_client()
+    
+    # Get user info
+    user_info = sp.current_user()
+    
+    # Music mood analysis
+    mood = analyze_music_mood(sp)
+    
+    # Recent data for listening schedule
+    recent = analyze_recent_plays(sp)
+    
+    # Calculate obscurity score
+    obscurity_score = calculate_obscurity_score(sp)
+    
+    return render_template('music_dna.html',
+                          active_page='music_dna',
+                          user_info=user_info,
+                          mood=mood,
+                          recent=recent,
+                          obscurity_score=obscurity_score)
 
 @app.route('/logout')
 def logout():

@@ -1,0 +1,166 @@
+{% extends "layout.html" %}
+
+{% block page_styles %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/dashboard.css') }}">
+{% endblock %}
+
+{% block content %}
+<div class="dashboard">
+    <div class="user-profile">
+        <h2>Welcome, {{ user_info.display_name }}!</h2>
+    </div>
+
+    <div class="page-title">
+        <h1>The Basics</h1>
+        <p class="page-description">Explore your top artists, tracks, and genres</p>
+    </div>
+
+    <!-- Artist Analysis with Tabs -->
+    <div class="analysis-section">
+        <h3>Your Top Artists</h3>
+        <div class="tabs">
+            <div class="tab-header">
+                <button class="tab-btn active" onclick="showTab('artists-short')">Last 4 Weeks</button>
+                <button class="tab-btn" onclick="showTab('artists-medium')">Last 6 Months</button>
+                <button class="tab-btn" onclick="showTab('artists-long')">All Time</button>
+            </div>
+
+            <div id="artists-short" class="tab-content active">
+                <div class="grid-container">
+                    {% for artist in top_artists_short[:10] %}
+                    <div class="artist-card">
+                        <span class="rank">{{ artist.rank }}</span>
+                        <h4>{{ artist.name }}</h4>
+                        <p class="genres">{{ artist.genres }}</p>
+                        <p class="followers">{{ artist.followers }} followers</p>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+
+            <div id="artists-medium" class="tab-content">
+                <div class="grid-container">
+                    {% for artist in top_artists_medium[:10] %}
+                    <div class="artist-card">
+                        <span class="rank">{{ artist.rank }}</span>
+                        <h4>{{ artist.name }}</h4>
+                        <p class="genres">{{ artist.genres }}</p>
+                        <p class="followers">{{ artist.followers }} followers</p>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+
+            <div id="artists-long" class="tab-content">
+                <div class="grid-container">
+                    {% for artist in top_artists_long[:10] %}
+                    <div class="artist-card">
+                        <span class="rank">{{ artist.rank }}</span>
+                        <h4>{{ artist.name }}</h4>
+                        <p class="genres">{{ artist.genres }}</p>
+                        <p class="followers">{{ artist.followers }} followers</p>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Track Analysis with Tabs -->
+    <div class="analysis-section">
+        <h3>Your Top Tracks</h3>
+        <div class="tabs">
+            <div class="tab-header">
+                <button class="tab-btn active" onclick="showTab('tracks-short')">Last 4 Weeks</button>
+                <button class="tab-btn" onclick="showTab('tracks-medium')">Last 6 Months</button>
+                <button class="tab-btn" onclick="showTab('tracks-long')">All Time</button>
+            </div>
+
+            <div id="tracks-short" class="tab-content active">
+                <div class="grid-container">
+                    {% for track in top_tracks_short[:10] %}
+                    <div class="artist-card">
+                        <span class="rank">{{ track.rank }}</span>
+                        <h4>{{ track.title or track.name }}</h4>
+                        <p class="artists">{{ track.artist or track.artists }}</p>
+                        <p class="popularity">{{ track.popularity }} popularity</p>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+
+            <div id="tracks-medium" class="tab-content">
+                <div class="grid-container">
+                    {% for track in top_tracks_medium[:10] %}
+                    <div class="artist-card">
+                        <span class="rank">{{ track.rank }}</span>
+                        <h4>{{ track.title or track.name }}</h4>
+                        <p class="artists">{{ track.artist or track.artists }}</p>
+                        <p class="popularity">{{ track.popularity }} popularity</p>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+
+            <div id="tracks-long" class="tab-content">
+                <div class="grid-container">
+                    {% for track in top_tracks_long[:10] %}
+                    <div class="artist-card">
+                        <span class="rank">{{ track.rank }}</span>
+                        <h4>{{ track.title or track.name }}</h4>
+                        <p class="artists">{{ track.artist or track.artists }}</p>
+                        <p class="popularity">{{ track.popularity }} popularity</p>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Genre Analysis -->
+    <div class="analysis-section">
+        <h3>Your Top Genres</h3>
+        <div class="grid-container">
+            {% for genre, count in top_genres_short %}
+            <div class="genre-card">
+                <h4>{{ genre }}</h4>
+                <p>{{ count }} plays</p>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+
+    <!-- Recent Plays -->
+    <div class="analysis-section">
+        <h3>Recently Played</h3>
+        <div class="recent-artists">
+            <h4>Artists You've Been Playing</h4>
+            <div class="recent-artist-list">
+                {% for artist, count in recent.top_recent_artists %}
+                <div class="recent-artist-item">
+                    <span class="artist-name">{{ artist }}</span>
+                    <span class="play-count">{{ count }} plays</span>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+
+        <!-- NEW: Music DNA Promo -->
+    <div class="dna-promo">
+        <div class="dna-promo-content">
+            <div class="dna-icon">
+                <svg width="40" height="40" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M12 22V2M4.5 7.5L19.5 16.5M4.5 16.5L19.5 7.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+            </div>
+            <div class="dna-text">
+                <h3>Discover Your Music DNA</h3>
+                <p>Go deeper with mood analysis, uniqueness score, and more insights about your musical taste</p>
+            </div>
+        </div>
+        <a href="{{ url_for('music_dna') }}" class="dna-button">Explore Music DNA</a>
+    </div>
+
+</div>
+{% endblock %}

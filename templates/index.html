@@ -1,11 +1,21 @@
 {% extends "layout.html" %}
 
+{% block page_styles %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/landing.css') }}">
+{% endblock %}
+
 {% block content %}
 <div class="landing-page">
-    <h1>Spotify Music Analysis</h1>
-    <p>Discover insights about your music taste</p>
-    <a href="{{ url_for('login') }}" class="login-button">
-        Login with Spotify
-    </a>
+    <div class="hero-section">
+        <div class="hero-content">
+            <h1 class="hero-title">Fulcher's Spotify Music Analysis</span></h1>
+            <p class="hero-subtitle">As a data engineer by day and a music enthusiast by night, I created this tool to help you unlock powerful insights about your Spotify listening habits. Login below with your Spotify account to get started.</p>
+            <a href="{{ url_for('login') }}" class="login-button">
+                <img src="{{ url_for('static', filename='img/full-logo-framed.svg') }}" alt="Spotify" class="spotify-icon">
+                Connect with Spotify
+            </a>
+        </div>
+        <!-- Rest of your landing page HTML -->
+    </div>
 </div>
 {% endblock %}

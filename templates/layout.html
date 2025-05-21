@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html>
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,328 +8,94 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <style>
-        :root {
-            --primary: #1DB954;
-            --primary-dark: #1aa34a;
-            --secondary: #191414;
-            --text: #121212;
-            --text-secondary: #666;
-            --background: #f8f8f8;
-            --card-bg: #ffffff;
-            --border-radius: 12px;
-            --shadow: 0 4px 12px rgba(0,0,0,0.05);
-            --transition: all 0.3s ease;
-        }
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-            line-height: 1.6;
-            background-color: var(--background);
-            color: var(--text);
-            padding: 0;
-            margin: 0;
-        }
-
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 20px;
-        }
-
-        h1, h2, h3, h4, h5 {
-            font-weight: 600;
-            letter-spacing: -0.025em;
-            margin-bottom: 0.75em;
-        }
-
-        /* Navigation */
-        .navbar {
-            padding: 16px 0;
-            background: var(--card-bg);
-            box-shadow: var(--shadow);
-            position: sticky;
-            top: 0;
-            z-index: 100;
-        }
-
-        .navbar-content {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 20px;
-        }
-
-        .logo {
-            display: flex;
-            align-items: center;
-            font-weight: 700;
-            color: var(--primary);
-            font-size: 1.5rem;
-        }
-
-        /* Dashboard styles */
-        .dashboard {
-            padding: 40px 0;
-        }
-
-        .user-profile {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 30px;
-        }
-
-        .user-profile h2 {
-            margin: 0;
-        }
-
-        .logout-btn {
-            background-color: var(--primary);
-            color: white;
-            border: none;
-            padding: 10px 20px;
-            border-radius: 30px;
-            font-weight: 500;
-            text-decoration: none;
-            transition: var(--transition);
-            font-size: 0.9rem;
-        }
-
-        .logout-btn:hover {
-            background-color: var(--primary-dark);
-        }
-
-        .analysis-section {
-            margin-bottom: 40px;
-            background: var(--card-bg);
-            border-radius: var(--border-radius);
-            padding: 24px;
-            box-shadow: var(--shadow);
-        }
-
-        .analysis-section h3 {
-            color: var(--text);
-            margin-top: 0;
-            font-size: 1.25rem;
-            border-bottom: 1px solid rgba(0,0,0,0.05);
-            padding-bottom: 12px;
-            margin-bottom: 20px;
-        }
-
-        /* Cards */
-        .grid-container {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-            grid-gap: 20px;
-        }
-
-        .artist-card, .genre-card {
-            background: rgba(248,248,248,0.5);
-            border-radius: 10px;
-            padding: 16px;
-            position: relative;
-            transition: var(--transition);
-            border: 1px solid rgba(0,0,0,0.05);
-        }
-
-        .artist-card:hover, .genre-card:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 8px 16px rgba(0,0,0,0.1);
-        }
-
-        .rank {
-            position: absolute;
-            top: 12px;
-            right: 12px;
-            background: var(--primary);
-            color: white;
-            width: 28px;
-            height: 28px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: 600;
-            font-size: 14px;
-        }
-
-        .artist-card h4, .genre-card h4 {
-            margin: 8px 0;
-            font-size: 1rem;
-        }
-
-        .genres, .artists, .followers, .popularity {
-            font-size: 0.85rem;
-            color: var(--text-secondary);
-            margin-bottom: 4px;
-        }
-
-        /* Mood card */
-        .mood-card {
-            text-align: center;
-            padding: 24px;
-            background: linear-gradient(135deg, rgba(29,185,84,0.1), rgba(29,185,84,0.05));
-            border-radius: var(--border-radius);
-        }
-
-        .mood-card h4 {
-            font-size: 1.5rem;
-            color: var(--primary);
-            margin-bottom: 8px;
-        }
-
-        /* Recent artist list */
-        .recent-artist-list {
-            margin-top: 16px;
-        }
-
-        .recent-artist-item {
-            display: flex;
-            justify-content: space-between;
-            padding: 12px 16px;
-            border-radius: 8px;
-            margin-bottom: 8px;
-            background: rgba(248,248,248,0.5);
-            transition: var(--transition);
-        }
-
-        .recent-artist-item:hover {
-            background: rgba(29,185,84,0.05);
-        }
-
-        .artist-name {
-            font-weight: 500;
-        }
-
-        .play-count {
-            color: var(--primary);
-            font-weight: 600;
-        }
-
-        /* Tabs */
-        .tabs {
-            margin-top: 20px;
-        }
-        
-        .tab-header {
-            display: flex;
-            border-bottom: 1px solid rgba(0,0,0,0.1);
-            margin-bottom: 20px;
-        }
-        
-        .tab-btn {
-            padding: 10px 16px;
-            background: none;
-            border: none;
-            cursor: pointer;
-            font-size: 14px;
-            font-weight: 500;
-            color: var(--text-secondary);
-            transition: var(--transition);
-            border-bottom: 3px solid transparent;
-            margin-right: 8px;
-        }
-        
-        .tab-btn.active {
-            border-bottom: 3px solid var(--primary);
-            color: var(--primary);
-            font-weight: 600;
-        }
-        
-        .tab-btn:hover:not(.active) {
-            color: var(--text);
-            background-color: rgba(0,0,0,0.02);
-        }
-        
-        .tab-content {
-            display: none;
-        }
-        
-        .tab-content.active {
-            display: block;
-            animation: fadeIn 0.3s ease;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(5px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        /* Responsive */
-        @media (max-width: 768px) {
-            .grid-container {
-                grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-            }
-            
-            .user-profile {
-                flex-direction: column;
-                align-items: flex-start;
-            }
-            
-            .user-profile a {
-                margin-top: 12px;
-            }
-        }
-    </style>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
+    {% block page_styles %}{% endblock %}
 </head>
+
 <body>
     <nav class="navbar">
         <div class="navbar-content">
             <div class="logo">
                 <span>Fulcher's Spotify Analysis</span>
             </div>
-            <!-- If you want a navigation menu, add it here -->
+            <!-- Add hamburger menu button -->
+            {% if session.get('token_info') %}
+            <div class="hamburger-menu" id="hamburgerButton">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+            {% endif %}
         </div>
     </nav>
+
+    <!-- Add sidebar navigation -->
+    <div class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <span>Navigation</span>
+            <button class="close-sidebar" id="closeSidebar">&times;</button>
+        </div>
+        <ul class="sidebar-menu">
+            <li><a href="{{ url_for('basics') }}" class="sidebar-link {% if active_page == 'basics' %}active{% endif %}">The Basics</a></li>
+            <li><a href="{{ url_for('music_dna') }}" class="sidebar-link {% if active_page == 'music_dna' %}active{% endif %}">Your Music DNA</a></li>
+            <li class="sidebar-divider"></li>
+            <li><a href="{{ url_for('logout') }}" class="sidebar-link logout">Logout</a></li>
+        </ul>
+    </div>
+    
+    <!-- Add overlay for mobile -->
+    <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
     <div class="container">
         {% block content %}{% endblock %}
     </div>
-    
+
     <script>
+        // Tab functionality
         function showTab(tabId) {
-            // Hide all tab contents
             document.querySelectorAll('.tab-content').forEach(tab => {
                 tab.classList.remove('active');
             });
-            
-            // Remove active class from all buttons
             document.querySelectorAll('.tab-btn').forEach(btn => {
                 btn.classList.remove('active');
             });
-            
-            // Show the selected tab content
             document.getElementById(tabId).classList.add('active');
-            
-            // Add active class to the clicked button
             event.currentTarget.classList.add('active');
         }
-        
-        function showTrackTab(tabId) {
-            // Hide all track tab contents
-            document.querySelectorAll('.track-tab-content').forEach(tab => {
-                tab.classList.remove('active');
-            });
+
+        // Hamburger menu toggle
+        document.addEventListener('DOMContentLoaded', function() {
+            const hamburger = document.getElementById('hamburgerButton');
+            const sidebar = document.getElementById('sidebar');
+            const overlay = document.getElementById('sidebarOverlay');
+            const closeBtn = document.getElementById('closeSidebar');
             
-            // Remove active class from all track tab buttons
-            document.querySelectorAll('.track-tab-btn').forEach(btn => {
-                btn.classList.remove('active');
-            });
+            if (hamburger) {
+                hamburger.addEventListener('click', function() {
+                    sidebar.classList.add('open');
+                    overlay.classList.add('visible');
+                    document.body.classList.add('sidebar-open');
+                });
+            }
             
-            // Show the selected track tab content
-            document.getElementById(tabId).classList.add('active');
+            if (closeBtn) {
+                closeBtn.addEventListener('click', closeSidebar);
+            }
             
-            // Add active class to the clicked button
-            event.currentTarget.classList.add('active');
-        }
+            if (overlay) {
+                overlay.addEventListener('click', closeSidebar);
+            }
+            
+            function closeSidebar() {
+                sidebar.classList.remove('open');
+                overlay.classList.remove('visible');
+                document.body.classList.remove('sidebar-open');
+            }
+        });
     </script>
+    
+    {% block scripts %}{% endblock %}
 </body>
+
 </html>

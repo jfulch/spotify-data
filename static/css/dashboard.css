@@ -1,0 +1,344 @@
+.dashboard {
+    padding: 40px 0;
+}
+
+.user-profile {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 30px;
+}
+
+.analysis-section {
+    margin-bottom: 40px;
+    background: var(--card-bg);
+    border-radius: var(--border-radius);
+    padding: 24px;
+    box-shadow: var(--shadow);
+}
+
+/* Add the styles from your inline <style> block */
+.obscurity-meter {
+    margin-top: 20px;
+    text-align: center;
+    max-width: 500px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.meter {
+    height: 16px;
+    background-color: #f1f1f1;
+    border-radius: 8px;
+    margin-bottom: 8px;
+    overflow: hidden;
+    box-shadow: inset 0 1px 3px rgba(0,0,0,0.1);
+}
+
+.meter-fill {
+    height: 100%;
+    background: linear-gradient(90deg, #1DB954 0%, #a756ff 100%);
+    border-radius: 8px;
+    transition: width 1s ease-in-out;
+}
+
+.meter-label {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.8rem;
+    color: #666;
+    margin-bottom: 15px;
+}
+
+.obscurity-score {
+    font-size: 2rem;
+    font-weight: bold;
+    color: #1DB954;
+    margin: 15px 0;
+}
+
+.insight {
+    font-size: 0.95rem;
+    color: #333;
+    margin-top: 10px;
+    text-align: center;
+}
+
+.radar-chart-container, .listening-clock-container {
+    max-width: 500px;
+    margin: 0 auto 20px;
+}
+
+/* Add more dashboard styles here */
+.grid-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    grid-gap: 20px;
+}
+
+.artist-card, .genre-card {
+    background: rgba(248,248,248,0.5);
+    border-radius: 10px;
+    padding: 16px;
+    position: relative;
+    transition: var(--transition);
+    border: 1px solid rgba(0,0,0,0.05);
+}
+
+.artist-card:hover, .genre-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+}
+
+.rank {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    background: var(--primary);
+    color: white;
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 600;
+    font-size: 14px;
+}
+
+.artist-card h4, .genre-card h4 {
+    margin: 8px 0;
+    font-size: 1rem;
+}
+
+.genres, .artists, .followers, .popularity {
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+    margin-bottom: 4px;
+}
+
+/* Tab styles */
+.tabs {
+    margin-top: 20px;
+}
+
+.tab-header {
+    display: flex;
+    border-bottom: 1px solid rgba(0,0,0,0.1);
+    margin-bottom: 20px;
+}
+
+.tab-btn {
+    padding: 10px 16px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--text-secondary);
+    transition: var(--transition);
+    border-bottom: 3px solid transparent;
+    margin-right: 8px;
+}
+
+.tab-btn.active {
+    border-bottom: 3px solid var(--primary);
+    color: var(--primary);
+    font-weight: 600;
+}
+
+.tab-btn:hover:not(.active) {
+    color: var(--text);
+    background-color: rgba(0,0,0,0.02);
+}
+
+.tab-content {
+    display: none;
+}
+
+.tab-content.active {
+    display: block;
+    animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(5px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* Mood card */
+.mood-card {
+    text-align: center;
+    padding: 24px;
+    background: linear-gradient(135deg, rgba(29,185,84,0.1), rgba(29,185,84,0.05));
+    border-radius: var(--border-radius);
+}
+
+.mood-card h4 {
+    font-size: 1.5rem;
+    color: var(--primary);
+    margin-bottom: 8px;
+}
+
+/* Recent artist list */
+.recent-artist-list {
+    margin-top: 16px;
+}
+
+.recent-artist-item {
+    display: flex;
+    justify-content: space-between;
+    padding: 12px 16px;
+    border-radius: 8px;
+    margin-bottom: 8px;
+    background: rgba(248,248,248,0.5);
+    transition: var(--transition);
+}
+
+.recent-artist-item:hover {
+    background: rgba(29,185,84,0.05);
+}
+
+.artist-name {
+    font-weight: 500;
+}
+
+.play-count {
+    color: var(--primary);
+    font-weight: 600;
+}
+
+/* Logout button */
+.logout-btn {
+    background-color: transparent;
+    border: 1px solid var(--primary);
+    color: var(--primary);
+    padding: 8px 16px;
+    border-radius: 30px;
+    font-weight: 500;
+    text-decoration: none;
+    transition: var(--transition);
+    font-size: 0.9rem;
+}
+
+.logout-btn:hover {
+    background-color: var(--primary);
+    color: white;
+}
+
+/* Add these to your existing dashboard.css */
+
+.page-title {
+    margin-bottom: 30px;
+    border-bottom: 1px solid rgba(0,0,0,0.1);
+    padding-bottom: 20px;
+}
+
+.page-title h1 {
+    font-size: 2.2rem;
+    color: var(--primary);
+    margin-bottom: 8px;
+}
+
+.page-description {
+    color: var(--text-secondary);
+    font-size: 1.1rem;
+}
+
+/* Add this to your dashboard.css file */
+
+.dna-promo {
+    background: linear-gradient(135deg, rgba(29, 185, 84, 0.15) 0%, rgba(138, 96, 224, 0.15) 100%);
+    border-radius: var(--border-radius);
+    padding: 24px;
+    margin-bottom: 30px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: relative;
+    overflow: hidden;
+    border: 1px solid rgba(29, 185, 84, 0.2);
+}
+
+.dna-promo::before {
+    content: '';
+    position: absolute;
+    top: -30px;
+    right: -30px;
+    width: 150px;
+    height: 150px;
+    background: radial-gradient(circle, rgba(29, 185, 84, 0.2) 0%, rgba(255, 255, 255, 0) 70%);
+    border-radius: 50%;
+    z-index: 0;
+}
+
+.dna-promo-content {
+    display: flex;
+    align-items: center;
+    z-index: 1;
+}
+
+.dna-icon {
+    margin-right: 20px;
+    color: var(--primary);
+    animation: pulse 2s infinite ease-in-out;
+}
+
+@keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.1); }
+    100% { transform: scale(1); }
+}
+
+.dna-text h3 {
+    font-size: 1.4rem;
+    margin-bottom: 8px;
+    color: var(--primary);
+}
+
+.dna-text p {
+    color: var(--text-secondary);
+    max-width: 500px;
+}
+
+.dna-button {
+    background-color: var(--primary);
+    color: white;
+    font-weight: 600;
+    padding: 12px 24px;
+    border-radius: 50px;
+    text-decoration: none;
+    transition: var(--transition);
+    font-size: 1rem;
+    white-space: nowrap;
+    box-shadow: 0 4px 12px rgba(29, 185, 84, 0.3);
+    z-index: 1;
+}
+
+.dna-button:hover {
+    background-color: var(--primary-dark);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(29, 185, 84, 0.4);
+}
+
+/* Make it responsive */
+@media (max-width: 768px) {
+    .dna-promo {
+        flex-direction: column;
+        text-align: center;
+    }
+    
+    .dna-promo-content {
+        flex-direction: column;
+        margin-bottom: 20px;
+    }
+    
+    .dna-icon {
+        margin-right: 0;
+        margin-bottom: 15px;
+    }
+    
+    .dna-text p {
+        margin-bottom: 20px;
+    }
+}
