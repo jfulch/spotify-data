@@ -1,4 +1,4 @@
-from track_analysis import get_top_tracks
+from .track_analysis import get_top_tracks
 
 def analyze_music_mood(spotify_client, time_range='medium_term'):
     """Analyze the 'mood' of your music based on genres instead of audio features"""

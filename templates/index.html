@@ -1,0 +1,11 @@
+{% extends "layout.html" %}
+
+{% block content %}
+<div class="landing-page">
+    <h1>Spotify Music Analysis</h1>
+    <p>Discover insights about your music taste</p>
+    <a href="{{ url_for('login') }}" class="login-button">
+        Login with Spotify
+    </a>
+</div>
+{% endblock %}

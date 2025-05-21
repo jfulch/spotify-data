@@ -1,0 +1,34 @@
+{% extends "layout.html" %}
+
+{% block content %}
+<div class="dashboard">
+    <div class="user-profile">
+        <h2>Welcome, {{ user_info.display_name }}!</h2>
+        <a href="{{ url_for('logout') }}">Logout</a>
+    </div>
+
+    <div class="analysis-section">
+        <h3>Your Music Mood</h3>
+        <div class="mood-card">
+            <h4>{{ mood.mood }}</h4>
+            <p>Based on your listening habits</p>
+        </div>
+    </div>
+
+    <div class="analysis-section">
+        <h3>Top Artists - Last 4 Weeks</h3>
+        <div class="grid-container">
+            {% for artist in top_artists_short[:10] %}
+            <div class="artist-card">
+                <span class="rank">{{ artist.rank }}</span>
+                <h4>{{ artist.name }}</h4>
+                <p class="genres">{{ artist.genres }}</p>
+                <p class="followers">{{ artist.followers }} followers</p>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+
+    <!-- More sections for other time ranges, tracks, etc. -->
+</div>
+{% endblock %}
