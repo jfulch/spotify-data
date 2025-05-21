@@ -1,4 +1,3 @@
-# artist_analysis.py
 def get_top_artists(spotify_client, time_range='medium_term', limit=20):
     """Get user's top artists"""
     results = spotify_client.current_user_top_artists(time_range=time_range, limit=limit)

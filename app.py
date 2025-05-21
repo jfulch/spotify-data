@@ -67,9 +67,16 @@ def dashboard():
     top_artists_medium = get_top_artists(sp, time_range='medium_term')
     top_artists_long = get_top_artists(sp, time_range='long_term')
     
-    top_tracks = get_top_tracks(sp, time_range='medium_term')
+    # Get tracks for different time ranges
+    top_tracks_short = get_top_tracks(sp, time_range='short_term')
+    top_tracks_medium = get_top_tracks(sp, time_range='medium_term')
+    top_tracks_long = get_top_tracks(sp, time_range='long_term')
+    
+    # Get genres - may need to update analyze_genre_distribution to accept time_range
+    top_genres_short = analyze_genre_distribution(sp, time_range='short_term')
+    
+    # Other data
     mood = analyze_music_mood(sp)
-    genres = analyze_genre_distribution(sp)[:10]  # Top 10 genres
     recent = analyze_recent_plays(sp)
     
     return render_template('dashboard.html',
@@ -77,9 +84,11 @@ def dashboard():
                           top_artists_short=top_artists_short,
                           top_artists_medium=top_artists_medium,
                           top_artists_long=top_artists_long,
-                          top_tracks=top_tracks,
+                          top_tracks_short=top_tracks_short,
+                          top_tracks_medium=top_tracks_medium,
+                          top_tracks_long=top_tracks_long,
+                          top_genres_short=top_genres_short,
                           mood=mood,
-                          genres=genres,
                           recent=recent)
 
 @app.route('/logout')

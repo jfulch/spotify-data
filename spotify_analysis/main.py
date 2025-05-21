@@ -1,8 +1,5 @@
-# main.py
 import pandas as pd
 from tabulate import tabulate
-
-# Import your modules
 from auth import get_spotify_client
 from artist_analysis import get_top_artists, analyze_genre_distribution
 from track_analysis import get_top_tracks, analyze_recent_plays
