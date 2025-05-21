@@ -14,7 +14,7 @@ from spotify_analysis.mood_analysis import analyze_music_mood
 load_dotenv()
 
 app = Flask(__name__)
-app.secret_key = os.urandom(24)  # For session management
+app.secret_key = os.environ.get('SECRET_KEY', os.urandom(24))
 app.config['SESSION_TYPE'] = 'filesystem'
 app.config['SESSION_COOKIE_NAME'] = 'spotify-login-session'
 
@@ -120,14 +120,17 @@ def is_token_expired(token_info):
     return token_info['expires_at'] - now < 60
 
 if __name__ == '__main__':
-    # For local development
-    # app.run(
-    #     debug=True, 
-    #     host='127.0.0.1',
-    #     port=8888,
-    #     ssl_context=('/Users/jfulch/.ssl/cert.pem', '/Users/jfulch/.ssl/key.pem')
-    # )
+    environment = os.environ.get('FLASK_ENV', 'production')
     
-    # For Heroku deployment:
-    port = int(os.environ.get('PORT', 5000))
-    app.run(host='0.0.0.0', port=port)
+    if environment == 'development':
+        # Local development with SSL
+        app.run(
+            debug=True, 
+            host='127.0.0.1',
+            port=8888,
+            ssl_context=('/Users/jfulch/.ssl/cert.pem', '/Users/jfulch/.ssl/key.pem')
+        )
+    else:
+        # Production/deployment settings
+        port = int(os.environ.get('PORT', 5000))
+        app.run(host='0.0.0.0', port=port)
