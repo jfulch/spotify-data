@@ -81,8 +81,10 @@ def basics():
     top_tracks_medium = get_top_tracks(sp, time_range='medium_term')
     top_tracks_long = get_top_tracks(sp, time_range='long_term')
     
-    # Genre analysis - pass the artists list directly
+    # Genre analysis for all time periods
     top_genres_short = analyze_genre_distribution(top_artists_short)
+    top_genres_medium = analyze_genre_distribution(top_artists_medium)
+    top_genres_long = analyze_genre_distribution(top_artists_long)
     
     # Recent plays
     recent = analyze_recent_plays(sp)
@@ -97,6 +99,8 @@ def basics():
                           top_tracks_medium=top_tracks_medium,
                           top_tracks_long=top_tracks_long,
                           top_genres_short=top_genres_short,
+                          top_genres_medium=top_genres_medium,
+                          top_genres_long=top_genres_long,
                           recent=recent)
 
 @app.route('/music-dna')

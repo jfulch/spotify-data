@@ -24,16 +24,52 @@
         </div>
     </div>
     
-    <!-- Music DNA Analysis with Chart -->
+    <!-- Update the Music DNA Analysis section -->
     <div class="analysis-section">
         <h3>Your Music DNA</h3>
         <div class="radar-chart-container">
             <canvas id="audioFeaturesChart" height="300"></canvas>
         </div>
         <p class="insight">Your music tends to be <strong>{{ mood.top_trait }}</strong> compared to average listeners.</p>
+        
+        <!-- Add feature explanations -->
+        <details class="explanation-details">
+            <summary>What do these features mean?</summary>
+            <div class="explanation-content">
+                <p class="feature-explanation">
+                    This chart shows the average audio characteristics of your music from approximately the last 6 months of listening. Each feature represents a different aspect of your sonic preferences:
+                </p>
+                <div class="features-grid">
+                    <div class="feature-item">
+                        <span class="feature-name">Energy</span>
+                        <p>How intense and active your music is. High energy tracks feel fast, loud, and noisy.</p>
+                    </div>
+                    <div class="feature-item">
+                        <span class="feature-name">Danceability</span>
+                        <p>How suitable your music is for dancing based on rhythm stability, beat strength, and regularity.</p>
+                    </div>
+                    <div class="feature-item">
+                        <span class="feature-name">Acousticness</span>
+                        <p>How acoustic vs. electronic your music is. Higher values indicate more acoustic instruments like piano, guitar, vocals.</p>
+                    </div>
+                    <div class="feature-item">
+                        <span class="feature-name">Instrumentalness</span>
+                        <p>How likely your music contains no vocals. Higher values suggest instrumental music with few or no lyrics.</p>
+                    </div>
+                    <div class="feature-item">
+                        <span class="feature-name">Valence</span>
+                        <p>The musical positiveness of your music. High valence tracks sound more happy, cheerful, and euphoric.</p>
+                    </div>
+                    <div class="feature-item">
+                        <span class="feature-name">Tempo</span>
+                        <p>How fast or slow your music typically is, represented as a relative percentage.</p>
+                    </div>
+                </div>
+            </div>
+        </details>
     </div>
-
-    <!-- Music Uniqueness Score -->
+    
+    <!-- ADD THIS SECTION WRAPPER: -->
     <div class="analysis-section">
         <h3>Music Taste Uniqueness</h3>
         <div class="obscurity-meter">
@@ -46,7 +82,18 @@
             </div>
             <div class="obscurity-score">{{ obscurity_score }}%</div>
         </div>
-        <p class="insight">Your music taste is {{ "more unique than" if obscurity_score > 50 else "similar to" }} {{ 100 - obscurity_score }}% of Spotify users.</p>
+        <p class="insight">
+            Your uniqueness score is {{ obscurity_score }}%. The higher this score, the more your taste includes
+            lesser-known artists and tracks compared to the average Spotify listener.
+        </p>
+        <details class="explanation-details">
+            <summary>What does this mean?</summary>
+            <div class="explanation-content">
+                <p>Our uniqueness score measures how mainstream or obscure your music taste is, based on the popularity of 
+                your top artists. A score of 50% represents the average Spotify user. A higher score means you tend to 
+                listen to more underground music, while a lower score indicates more mainstream preferences.</p>
+            </div>
+        </details>
     </div>
 
     <!-- Listening Schedule -->

@@ -342,3 +342,78 @@
         margin-bottom: 20px;
     }
 }
+
+.explanation-details {
+    margin-top: 12px;
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+}
+
+.explanation-details summary {
+    cursor: pointer;
+    color: var(--primary);
+    font-weight: 500;
+}
+
+.explanation-details summary:hover {
+    text-decoration: underline;
+}
+
+.explanation-content {
+    margin-top: 8px;
+    padding: 12px;
+    background-color: rgba(248,248,248,0.5);
+    border-radius: 8px;
+    font-size: 0.85rem;
+    line-height: 1.5;
+}
+
+/* Add these styles to your dashboard.css file */
+
+.features-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 16px;
+    margin-top: 16px;
+}
+
+.feature-item {
+    background-color: rgba(255, 255, 255, 0.8);
+    border-radius: 8px;
+    padding: 12px;
+    border-left: 3px solid var(--primary);
+}
+
+.feature-name {
+    font-weight: 600;
+    color: var(--primary);
+    display: block;
+    margin-bottom: 6px;
+}
+
+.feature-item p {
+    margin: 0;
+    font-size: 0.85rem;
+    color: var(--text);
+    line-height: 1.5;
+}
+
+.feature-explanation {
+    margin-bottom: 12px;
+    font-style: italic;
+    color: var(--text-secondary);
+}
+
+/* Responsive adjustments */
+@media (max-width: 576px) {
+    .features-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+.section-description {
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+    margin-bottom: 16px;
+    max-width: 600px;
+}

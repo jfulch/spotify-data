@@ -116,25 +116,58 @@
             </div>
         </div>
     </div>
-
-    <!-- Genre Analysis -->
+    
+    <!-- Genre Analysis with Tabs -->
     <div class="analysis-section">
         <h3>Your Top Genres</h3>
-        <div class="grid-container">
-            {% for genre, count in top_genres_short %}
-            <div class="genre-card">
-                <h4>{{ genre }}</h4>
-                <p>{{ count }} plays</p>
+        <div class="tabs">
+            <div class="tab-header">
+                <button class="tab-btn active" onclick="showTab('genres-short')">Last 4 Weeks</button>
+                <button class="tab-btn" onclick="showTab('genres-medium')">Last 6 Months</button>
+                <button class="tab-btn" onclick="showTab('genres-long')">All Time</button>
             </div>
-            {% endfor %}
+
+            <div id="genres-short" class="tab-content active">
+                <div class="grid-container">
+                    {% for genre, count in top_genres_short %}
+                    <div class="genre-card">
+                        <h4>{{ genre }}</h4>
+                        <p>Found in {{ count }} of your top artists</p>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+
+            <div id="genres-medium" class="tab-content">
+                <div class="grid-container">
+                    {% for genre, count in top_genres_medium %}
+                    <div class="genre-card">
+                        <h4>{{ genre }}</h4>
+                        <p>Found in {{ count }} of your top artists</p>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+
+        <div id="genres-long" class="tab-content">
+            <div class="grid-container">
+                {% for genre, count in top_genres_long %}
+                <div class="genre-card">
+                    <h4>{{ genre }}</h4>
+                    <p>Found in {{ count }} of your top artists</p>
+                </div>
+                {% endfor %}
+            </div>
         </div>
     </div>
+</div>
 
     <!-- Recent Plays -->
     <div class="analysis-section">
         <h3>Recently Played</h3>
         <div class="recent-artists">
             <h4>Artists You've Been Playing</h4>
+            <p class="section-description">Shows how many tracks from each artist you've played in your approximately 50 most recent listens.</p>
             <div class="recent-artist-list">
                 {% for artist, count in recent.top_recent_artists %}
                 <div class="recent-artist-item">
