@@ -22,7 +22,7 @@ app.config['SESSION_COOKIE_NAME'] = 'spotify-login-session'
 # Spotify API credentials
 SPOTIFY_CLIENT_ID = os.getenv('SPOTIFY_CLIENT_ID')
 SPOTIFY_CLIENT_SECRET = os.getenv('SPOTIFY_CLIENT_SECRET')
-SPOTIFY_REDIRECT_URI = os.getenv('SPOTIFY_REDIRECT_URI')  # Should be your Flask app URL + /callback
+SPOTIFY_REDIRECT_URI = os.getenv('SPOTIFY_REDIRECT_URI')
 
 # Spotify scopes
 SCOPE = "user-top-read user-read-recently-played"
@@ -40,16 +40,33 @@ def login():
 
 @app.route('/callback')
 def callback():
-    # Handle Spotify callback
+    # Create a new SpotifyOAuth instance
     sp_oauth = create_spotify_oauth()
-    session.clear()
-    code = request.args.get('code')
-    token_info = sp_oauth.get_access_token(code)
     
-    # Save token info to session
+    # Get auth token from Spotify
+    token_info = sp_oauth.get_access_token(request.args.get('code'))
+    
+    # Store in user's session
     session['token_info'] = token_info
     
     return redirect(url_for('dashboard'))
+
+def get_spotify_client():
+    """Get a spotify client for the current user's session"""
+    if 'token_info' not in session:
+        return redirect(url_for('login'))
+        
+    token_info = session.get('token_info', {})
+    
+    # Check if token needs refresh
+    if is_token_expired(token_info):
+        # Create oauth and use it to refresh the token
+        sp_oauth = create_spotify_oauth()
+        token_info = sp_oauth.refresh_access_token(token_info['refresh_token'])
+        session['token_info'] = token_info
+        
+    # Create a NEW client for THIS user with THEIR token
+    return spotipy.Spotify(auth=token_info['access_token'])
 
 @app.route('/dashboard')
 def dashboard():
@@ -147,18 +164,6 @@ def create_spotify_oauth():
 def is_authenticated():
     """Check if the user is logged in with a valid token"""
     return 'token_info' in session
-
-def get_spotify_client():
-    """Get an authenticated Spotify client using the session token"""
-    token_info = session.get('token_info', {})
-    
-    # Check if token needs refresh
-    if is_token_expired(token_info):
-        sp_oauth = create_spotify_oauth()
-        token_info = sp_oauth.refresh_access_token(token_info['refresh_token'])
-        session['token_info'] = token_info
-    
-    return spotipy.Spotify(auth=token_info['access_token'])
 
 def is_token_expired(token_info):
     """Check if the token is expired"""
