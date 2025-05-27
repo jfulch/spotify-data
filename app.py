@@ -1,22 +1,27 @@
+print("=============== APPLICATION STARTING ===============")
+import sys
 import os
+print(f"Python version: {sys.version}")
+print(f"Working directory: {os.getcwd()}")
+try:
+    print(f"Directory contents: {os.listdir('.')}")
+except Exception as e:
+    print(f"Could not list directory: {e}")
+
+# Then your existing imports...
 import spotipy
 from spotipy.oauth2 import SpotifyOAuth
 from dotenv import load_dotenv
 import time
 from flask import Flask, session, request, redirect, render_template, url_for, jsonify
 
-# Import your analysis modules
-from spotify_analysis.artist_analysis import get_top_artists, analyze_genre_distribution
-from spotify_analysis.track_analysis import get_top_tracks, analyze_recent_plays
-from spotify_analysis.mood_analysis import analyze_music_mood
-from spotify_analysis.obscurity_score import calculate_obscurity_score
-
 # Load environment variables
 load_dotenv()
 
 app = Flask(__name__)
 app.secret_key = os.environ.get('SECRET_KEY', os.urandom(24))
-app.config['SESSION_TYPE'] = 'filesystem'
+# Remove this line - it needs flask-session package
+# app.config['SESSION_TYPE'] = 'filesystem'
 app.config['SESSION_COOKIE_NAME'] = 'spotify-login-session'
 
 # Spotify API credentials
@@ -154,12 +159,24 @@ def logout():
     return redirect(url_for('index'))
 
 def create_spotify_oauth():
-    return SpotifyOAuth(
-        client_id=SPOTIFY_CLIENT_ID,
-        client_secret=SPOTIFY_CLIENT_SECRET,
-        redirect_uri=SPOTIFY_REDIRECT_URI,
-        scope=SCOPE
-    )
+    try:
+        client_id = os.getenv('SPOTIFY_CLIENT_ID')
+        client_secret = os.getenv('SPOTIFY_CLIENT_SECRET')
+        redirect_uri = os.getenv('SPOTIFY_REDIRECT_URI')
+        
+        print(f"OAuth config: ID length={len(client_id) if client_id else 0}, "
+              f"Secret length={len(client_secret) if client_secret else 0}, "
+              f"Redirect={redirect_uri}")
+        
+        return SpotifyOAuth(
+            client_id=client_id,
+            client_secret=client_secret,
+            redirect_uri=redirect_uri,
+            scope=SCOPE
+        )
+    except Exception as e:
+        print(f"ERROR CREATING OAUTH: {e}")
+        raise
 
 @app.route('/artist-search')
 def artist_search():
@@ -211,6 +228,20 @@ def get_artist_details(artist_id):
         })
     except Exception as e:
         return {"error": str(e)}, 500
+    
+@app.route('/health')
+def health_check():
+    """Simple endpoint to verify app is running"""
+    env_status = {
+        "spotify_client_id": bool(os.getenv('SPOTIFY_CLIENT_ID')),
+        "spotify_client_secret": bool(os.getenv('SPOTIFY_CLIENT_SECRET')),
+        "spotify_redirect_uri": os.getenv('SPOTIFY_REDIRECT_URI'),
+        "secret_key": bool(os.environ.get('SECRET_KEY')),
+    }
+    return jsonify({
+        "status": "healthy",
+        "environment_variables": env_status
+    })
 
 def is_authenticated():
     """Check if the user is logged in with a valid token"""
