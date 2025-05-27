@@ -10,6 +10,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
+    <link rel="icon" href="{{ url_for('static', filename='favicon.ico') }}">
     {% block page_styles %}{% endblock %}
 </head>
 
@@ -19,8 +20,15 @@
             <div class="logo">
                 <span>Fulcher's Spotify Analysis</span>
             </div>
-            <!-- Add hamburger menu button -->
             {% if session.get('token_info') %}
+            <div class="nav-links">
+                <a href="{{ url_for('basics') }}" class="nav-link {% if active_page == 'basics' %}active{% endif %}">The
+                    Basics</a>
+                <a href="{{ url_for('music_dna') }}"
+                    class="nav-link {% if active_page == 'music_dna' %}active{% endif %}">Your Music DNA</a>
+                <a href="{{ url_for('artist_search') }}"
+                    class="nav-link {% if active_page == 'artist_search' %}active{% endif %}">Artist Search</a>
+            </div>
             <div class="hamburger-menu" id="hamburgerButton">
                 <span></span>
                 <span></span>
@@ -30,21 +38,23 @@
         </div>
     </nav>
 
-    <!-- Add sidebar navigation -->
     <div class="sidebar" id="sidebar">
         <div class="sidebar-header">
             <span>Navigation</span>
             <button class="close-sidebar" id="closeSidebar">&times;</button>
         </div>
         <ul class="sidebar-menu">
-            <li><a href="{{ url_for('basics') }}" class="sidebar-link {% if active_page == 'basics' %}active{% endif %}">The Basics</a></li>
-            <li><a href="{{ url_for('music_dna') }}" class="sidebar-link {% if active_page == 'music_dna' %}active{% endif %}">Your Music DNA</a></li>
+            <li><a href="{{ url_for('basics') }}"
+                    class="sidebar-link {% if active_page == 'basics' %}active{% endif %}">The Basics</a></li>
+            <li><a href="{{ url_for('music_dna') }}"
+                    class="sidebar-link {% if active_page == 'music_dna' %}active{% endif %}">Your Music DNA</a></li>
+            <li><a href="{{ url_for('artist_search') }}"
+                    class="sidebar-link {% if active_page == 'artist_search' %}active{% endif %}">Artist Search</a></li>
             <li class="sidebar-divider"></li>
             <li><a href="{{ url_for('logout') }}" class="sidebar-link logout">Logout</a></li>
         </ul>
     </div>
-    
-    <!-- Add overlay for mobile -->
+
     <div class="sidebar-overlay" id="sidebarOverlay"></div>
 
     <div class="container">
@@ -65,28 +75,28 @@
         }
 
         // Hamburger menu toggle
-        document.addEventListener('DOMContentLoaded', function() {
+        document.addEventListener('DOMContentLoaded', function () {
             const hamburger = document.getElementById('hamburgerButton');
             const sidebar = document.getElementById('sidebar');
             const overlay = document.getElementById('sidebarOverlay');
             const closeBtn = document.getElementById('closeSidebar');
-            
+
             if (hamburger) {
-                hamburger.addEventListener('click', function() {
+                hamburger.addEventListener('click', function () {
                     sidebar.classList.add('open');
                     overlay.classList.add('visible');
                     document.body.classList.add('sidebar-open');
                 });
             }
-            
+
             if (closeBtn) {
                 closeBtn.addEventListener('click', closeSidebar);
             }
-            
+
             if (overlay) {
                 overlay.addEventListener('click', closeSidebar);
             }
-            
+
             function closeSidebar() {
                 sidebar.classList.remove('open');
                 overlay.classList.remove('visible');
@@ -94,7 +104,7 @@
             }
         });
     </script>
-    
+
     {% block scripts %}{% endblock %}
 </body>
 

@@ -1,9 +1,9 @@
 import os
-from flask import Flask, session, request, redirect, render_template, url_for
 import spotipy
 from spotipy.oauth2 import SpotifyOAuth
 from dotenv import load_dotenv
 import time
+from flask import Flask, session, request, redirect, render_template, url_for, jsonify
 
 # Import your analysis modules
 from spotify_analysis.artist_analysis import get_top_artists, analyze_genre_distribution
@@ -25,7 +25,7 @@ SPOTIFY_CLIENT_SECRET = os.getenv('SPOTIFY_CLIENT_SECRET')
 SPOTIFY_REDIRECT_URI = os.getenv('SPOTIFY_REDIRECT_URI')
 
 # Spotify scopes
-SCOPE = "user-top-read user-read-recently-played"
+SCOPE = "user-read-private user-read-email user-top-read user-read-recently-played playlist-read-private user-follow-read"
 
 @app.route('/')
 def index():
@@ -160,6 +160,57 @@ def create_spotify_oauth():
         redirect_uri=SPOTIFY_REDIRECT_URI,
         scope=SCOPE
     )
+
+@app.route('/artist-search')
+def artist_search():
+    """Display the artist search page"""
+    if not is_authenticated():
+        return redirect(url_for('login'))
+        
+    return render_template('artist_search.html', active_page='artist_search', user_info=get_spotify_client().current_user())
+
+@app.route('/api/search-artist')
+def search_artist():
+    """API endpoint to search for artists"""
+    if not is_authenticated():
+        return {"error": "Not authenticated"}, 401
+        
+    query = request.args.get('query', '')
+    if not query:
+        return {"error": "No search query provided"}, 400
+    
+    try:
+        sp = get_spotify_client()
+        results = sp.search(q=query, type='artist', limit=10)
+        return jsonify(results)
+    except Exception as e:
+        return {"error": str(e)}, 500
+
+@app.route('/api/artist/<artist_id>')
+def get_artist_details(artist_id):
+    """API endpoint to get detailed information about an artist"""
+    if not is_authenticated():
+        return {"error": "Not authenticated"}, 401
+    
+    try:
+        sp = get_spotify_client()
+        # Get artist details
+        artist = sp.artist(artist_id)
+        
+        # Get artist's top tracks
+        top_tracks = sp.artist_top_tracks(artist_id)
+        
+        # Get artist's albums
+        albums = sp.artist_albums(artist_id, album_type='album', limit=5)
+                
+        return jsonify({
+            "artist": artist,
+            "top_tracks": top_tracks,
+            "albums": albums
+            # Remove related_artists from the response entirely
+        })
+    except Exception as e:
+        return {"error": str(e)}, 500
 
 def is_authenticated():
     """Check if the user is logged in with a valid token"""

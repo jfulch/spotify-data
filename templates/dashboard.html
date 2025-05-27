@@ -19,14 +19,15 @@
             <p>Based on your listening habits</p>
         </div>
     </div>
-    
+
     <!-- NEW: Music DNA Analysis with Chart -->
     <div class="analysis-section">
         <h3>Your Music DNA</h3>
         <div class="radar-chart-container">
             <canvas id="audioFeaturesChart" height="300"></canvas>
         </div>
-        <p class="insight">Your music tends to be <strong>{{ mood.top_trait }}</strong> compared to average listeners.</p>
+        <p class="insight">Your music tends to be <strong>{{ mood.top_trait }}</strong> compared to average listeners.
+        </p>
     </div>
 
     <!-- NEW: Music Uniqueness Score -->
@@ -42,7 +43,8 @@
             </div>
             <div class="obscurity-score">{{ obscurity_score }}%</div>
         </div>
-        <p class="insight">Your music taste is {{ "more unique than" if obscurity_score > 50 else "similar to" }} {{ 100 - obscurity_score }}% of Spotify users.</p>
+        <p class="insight">Your music taste is {{ "more unique than" if obscurity_score > 50 else "similar to" }} {{ 100
+            - obscurity_score }}% of Spotify users.</p>
     </div>
 
     <!-- Artist Analysis with Tabs -->
@@ -153,7 +155,8 @@
         <div class="listening-clock-container">
             <canvas id="listeningClockChart" height="300"></canvas>
         </div>
-        <p class="insight">You listen most at <strong>{{ recent.peak_hour }}:00</strong>, typically to {{ recent.peak_genre }} music.</p>
+        <p class="insight">You listen most at <strong>{{ recent.peak_hour }}:00</strong>, typically to {{
+            recent.peak_genre }} music.</p>
     </div>
 
     <!-- Genre Analysis -->
@@ -188,99 +191,30 @@
 {% endblock %}
 
 {% block scripts %}
-<!-- Add your chart scripts here -->
 <script>
-    document.addEventListener('DOMContentLoaded', function() {
-        // Audio features radar chart
-        const radarCtx = document.getElementById('audioFeaturesChart').getContext('2d');
-        new Chart(radarCtx, {
-            type: 'radar',
-            data: {
-                labels: ['Energy', 'Danceability', 'Acousticness', 'Instrumentalness', 'Valence', 'Tempo'],
-                datasets: [{
-                    label: 'Your Music',
-                    data: [
-                        {{ mood['average_energy'] * 100 if 'average_energy' in mood else 50 }}, 
-                        {{ mood['average_danceability'] * 100 if 'average_danceability' in mood else 50 }}, 
-                        {{ mood['average_acousticness'] * 100 if 'average_acousticness' in mood else 50 }}, 
-                        {{ mood['average_instrumentalness'] * 100 if 'average_instrumentalness' in mood else 50 }},
-                        {{ mood['average_valence'] * 100 if 'average_valence' in mood else 50 }},
-                        {{ mood['average_tempo'] / 200 * 100 if 'average_tempo' in mood else 50 }}
-                    ],
-                    fill: true,
-                    backgroundColor: 'rgba(29, 185, 84, 0.2)',
-                    borderColor: '#1DB954',
-                    pointBackgroundColor: '#1DB954',
-                    pointBorderColor: '#fff',
-                    pointHoverBackgroundColor: '#fff',
-                    pointHoverBorderColor: '#1DB954',
-                    pointRadius: 4
-                }]
-            },
-            options: {
-                scales: {
-                    r: {
-                        beginAtZero: true,
-                        max: 100,
-                        ticks: {
-                            display: false
-                        }
-                    }
-                },
-                plugins: {
-                    legend: {
-                        display: false
-                    }
-                }
-            }
-        });
+    window.dashboardData = {
+        // Chart data
+        moodEnergy: {{ mood['average_energy'] * 100 if 'average_energy' in mood else 50 }},
+    moodDanceability: { { mood['average_danceability'] * 100 if 'average_danceability' in mood else 50 } },
+    moodAcousticness: { { mood['average_acousticness'] * 100 if 'average_acousticness' in mood else 50 } },
+    moodInstrumentalness: { { mood['average_instrumentalness'] * 100 if 'average_instrumentalness' in mood else 50 } },
+    moodValence: { { mood['average_valence'] * 100 if 'average_valence' in mood else 50 } },
+    moodTempo: { { mood['average_tempo'] / 200 * 100 if 'average_tempo' in mood else 50 } },
 
-        // Listening clock chart
-        const clockCtx = document.getElementById('listeningClockChart').getContext('2d');
-        new Chart(clockCtx, {
-            type: 'bar',
-            data: {
-                labels: ['12am', '3am', '6am', '9am', '12pm', '3pm', '6pm', '9pm'],
-                datasets: [{
-                    label: 'Listening Activity',
-                    data: [
-                        {{ recent.hour_distribution.get(0, 0) + recent.hour_distribution.get(1, 0) + recent.hour_distribution.get(2, 0) }},
-                        {{ recent.hour_distribution.get(3, 0) + recent.hour_distribution.get(4, 0) + recent.hour_distribution.get(5, 0) }},
-                        {{ recent.hour_distribution.get(6, 0) + recent.hour_distribution.get(7, 0) + recent.hour_distribution.get(8, 0) }},
-                        {{ recent.hour_distribution.get(9, 0) + recent.hour_distribution.get(10, 0) + recent.hour_distribution.get(11, 0) }},
-                        {{ recent.hour_distribution.get(12, 0) + recent.hour_distribution.get(13, 0) + recent.hour_distribution.get(14, 0) }},
-                        {{ recent.hour_distribution.get(15, 0) + recent.hour_distribution.get(16, 0) + recent.hour_distribution.get(17, 0) }},
-                        {{ recent.hour_distribution.get(18, 0) + recent.hour_distribution.get(19, 0) + recent.hour_distribution.get(20, 0) }},
-                        {{ recent.hour_distribution.get(21, 0) + recent.hour_distribution.get(22, 0) + recent.hour_distribution.get(23, 0) }}
-                    ],
-                    backgroundColor: '#1DB954'
-                }]
-            },
-            options: {
-                responsive: true,
-                scales: {
-                    y: {
-                        beginAtZero: true,
-                        title: {
-                            display: true,
-                            text: 'Number of Plays'
-                        }
-                    },
-                    x: {
-                        title: {
-                            display: true,
-                            text: 'Time of Day'
-                        }
-                    }
-                },
-                plugins: {
-                    legend: {
-                        display: false
-                    }
-                }
-            }
-        });
-    });
+    // Listening hours
+    hours: {
+        earlyMorning: { { recent.hour_distribution.get(0, 0) + recent.hour_distribution.get(1, 0) + recent.hour_distribution.get(2, 0) } },
+        morning: { { recent.hour_distribution.get(3, 0) + recent.hour_distribution.get(4, 0) + recent.hour_distribution.get(5, 0) } },
+        lateMorning: { { recent.hour_distribution.get(6, 0) + recent.hour_distribution.get(7, 0) + recent.hour_distribution.get(8, 0) } },
+        noon: { { recent.hour_distribution.get(9, 0) + recent.hour_distribution.get(10, 0) + recent.hour_distribution.get(11, 0) } },
+        afternoon: { { recent.hour_distribution.get(12, 0) + recent.hour_distribution.get(13, 0) + recent.hour_distribution.get(14, 0) } },
+        evening: { { recent.hour_distribution.get(15, 0) + recent.hour_distribution.get(16, 0) + recent.hour_distribution.get(17, 0) } },
+        night: { { recent.hour_distribution.get(18, 0) + recent.hour_distribution.get(19, 0) + recent.hour_distribution.get(20, 0) } },
+        lateNight: { { recent.hour_distribution.get(21, 0) + recent.hour_distribution.get(22, 0) + recent.hour_distribution.get(23, 0) } }
+    }
+    };
 </script>
 
+<!-- Reference to your external script -->
+<script src="{{ url_for('static', filename='js/dashboard.js') }}"></script>
 {% endblock %}

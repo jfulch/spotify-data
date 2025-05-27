@@ -206,3 +206,22 @@ body.sidebar-open {
     opacity: 1;
     visibility: visible;
 }
+
+.navbar .nav-links .nav-link {
+  color: var(--text, #333);
+  text-decoration: none;
+  font-weight: 500;
+  padding: 8px 16px;
+  border-radius: 4px;
+  transition: all 0.2s ease;
+}
+
+.navbar .nav-links .nav-link:hover {
+  background-color: rgba(29, 185, 84, 0.1);
+  color: var(--primary, #1DB954);
+}
+
+.navbar .nav-links .nav-link.active {
+  background-color: var(--primary, #1DB954);
+  color: white;
+}

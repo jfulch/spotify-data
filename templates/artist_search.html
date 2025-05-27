@@ -1,0 +1,39 @@
+{% extends "layout.html" %}
+
+{% block page_styles %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/dashboard.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/artist-search.css') }}">
+{% endblock %}
+
+{% block content %}
+<div class="dashboard">
+    <div class="user-profile">
+        <h2>Welcome, {{ user_info.display_name }}!</h2>
+    </div>
+
+    <div class="page-title">
+        <h1>Artist Search</h1>
+        <p class="page-description">Search for any artist to see their details, top tracks, and albums</p>
+    </div>
+
+    <div class="analysis-section">
+        <h3>Search for an Artist</h3>
+        <div class="search-container">
+            <form id="artistSearchForm" class="search-form">
+                <input type="text" id="artistSearchInput" class="search-input" placeholder="Enter artist name..." required>
+                <button type="submit" class="search-button">Search</button>
+            </form>
+        </div>
+        
+        <div id="searchResults">
+            <div class="initial-state">
+                <p>Search for an artist above to see their details</p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/artist-search.js') }}"></script>
+{% endblock %}
