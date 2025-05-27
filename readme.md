@@ -1,7 +1,7 @@
 # Spotify Music Analysis Dashboard
 A personalized web application that provides in-depth analysis of your Spotify listening habits, showcasing your musical taste profile and listening patterns.
 
-Check out the live deployed version here: https://jfulch-spotify-data.onrender.com
+Check out the live deployed version here: https://jfulch-spotify-data.up.railway.app/
 
 ## Overview
 This application connects to your Spotify account and analyzes your listening history to generate insights about your music preferences. It visualizes your top artists, tracks, genres, and provides detailed analysis of your musical "DNA" through audio feature analysis.
