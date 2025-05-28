@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Spotify Data - Login</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/login.css') }}">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+    <div class="container">
+        <div class="login-container">
+            <img src="{{ url_for('static', filename='img/full-logo-framed.svg') }}" alt="Spotify Data" class="logo">
+            <h1>Fulcher's Spotify Analysis</h1>
+            <p>As a data engineer by night and music enthusiast by day, I created this tool to help you explore your Spotify data.</p>
+            <a href="{{ url_for('login') }}" class="login-button">Connect with Spotify</a>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,14 +1,22 @@
 import pandas as pd
 from tabulate import tabulate
-from auth import get_spotify_client
-from artist_analysis import get_top_artists, analyze_genre_distribution
-from track_analysis import get_top_tracks, analyze_recent_plays
-from mood_analysis import analyze_music_mood
+from .artist_analysis import get_top_artists, analyze_genre_distribution
+from .track_analysis import get_top_tracks, analyze_recent_plays
+from .mood_analysis import analyze_music_mood
+from .auth import get_spotify_client  # Explicitly import from auth.py
 
-def main():
-    # Create Spotify client
-    print("Authenticating with Spotify...")
-    sp = get_spotify_client()
+def main(sp=None):
+    """
+    Main function to analyze Spotify data.
+    
+    Parameters:
+        sp (Spotify client, optional): Pre-authenticated Spotify client.
+            If None, will try to authenticate using auth.py
+    """
+    # Use provided client or authenticate a new one for CLI usage
+    if sp is None:
+        print("No client provided, authenticating with Spotify...")
+        sp = get_spotify_client()
     
     # Get user profile to verify authentication
     user_info = sp.current_user()

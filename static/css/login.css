@@ -1,0 +1,59 @@
+.login-container {
+    max-width: 500px;
+    margin: 100px auto;
+    padding: 40px;
+    text-align: center;
+    background-color: white;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+}
+
+.login-container .logo {
+    width: 180px; /* Much larger size */
+    height: auto;
+    margin-bottom: 24px;
+    background: transparent; /* Remove any background */
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.login-container h1 {
+    font-size: 2rem;
+    font-weight: 700;
+    margin-bottom: 16px;
+    color: var(--text);
+}
+
+.login-container p {
+    color: var(--text-secondary);
+    margin-bottom: 30px;
+    font-size: 1.1rem;
+    line-height: 1.6;
+}
+
+.login-button {
+    display: inline-block;
+    background: #1DB954;
+    color: white;
+    padding: 14px 32px;
+    border-radius: 50px;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 1.1rem;
+    transition: all 0.2s ease;
+    border: none;
+    cursor: pointer;
+}
+
+.login-button:hover {
+    background: #1ed760;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(29, 185, 84, 0.3);
+}
+
+/* Add some nice gradient background effect */
+body {
+    background: linear-gradient(135deg, #f8f8f8 0%, #ffffff 100%);
+    min-height: 100vh;
+}

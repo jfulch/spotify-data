@@ -195,23 +195,23 @@
     window.dashboardData = {
         // Chart data
         moodEnergy: {{ mood['average_energy'] * 100 if 'average_energy' in mood else 50 }},
-    moodDanceability: { { mood['average_danceability'] * 100 if 'average_danceability' in mood else 50 } },
-    moodAcousticness: { { mood['average_acousticness'] * 100 if 'average_acousticness' in mood else 50 } },
-    moodInstrumentalness: { { mood['average_instrumentalness'] * 100 if 'average_instrumentalness' in mood else 50 } },
-    moodValence: { { mood['average_valence'] * 100 if 'average_valence' in mood else 50 } },
-    moodTempo: { { mood['average_tempo'] / 200 * 100 if 'average_tempo' in mood else 50 } },
-
-    // Listening hours
-    hours: {
-        earlyMorning: { { recent.hour_distribution.get(0, 0) + recent.hour_distribution.get(1, 0) + recent.hour_distribution.get(2, 0) } },
-        morning: { { recent.hour_distribution.get(3, 0) + recent.hour_distribution.get(4, 0) + recent.hour_distribution.get(5, 0) } },
-        lateMorning: { { recent.hour_distribution.get(6, 0) + recent.hour_distribution.get(7, 0) + recent.hour_distribution.get(8, 0) } },
-        noon: { { recent.hour_distribution.get(9, 0) + recent.hour_distribution.get(10, 0) + recent.hour_distribution.get(11, 0) } },
-        afternoon: { { recent.hour_distribution.get(12, 0) + recent.hour_distribution.get(13, 0) + recent.hour_distribution.get(14, 0) } },
-        evening: { { recent.hour_distribution.get(15, 0) + recent.hour_distribution.get(16, 0) + recent.hour_distribution.get(17, 0) } },
-        night: { { recent.hour_distribution.get(18, 0) + recent.hour_distribution.get(19, 0) + recent.hour_distribution.get(20, 0) } },
-        lateNight: { { recent.hour_distribution.get(21, 0) + recent.hour_distribution.get(22, 0) + recent.hour_distribution.get(23, 0) } }
-    }
+        moodDanceability: {{ mood['average_danceability'] * 100 if 'average_danceability' in mood else 50 }},
+        moodAcousticness: {{ mood['average_acousticness'] * 100 if 'average_acousticness' in mood else 50 }},
+        moodInstrumentalness: {{ mood['average_instrumentalness'] * 100 if 'average_instrumentalness' in mood else 50 }},
+        moodValence: {{ mood['average_valence'] * 100 if 'average_valence' in mood else 50 }},
+        moodTempo: {{ mood['average_tempo'] / 200 * 100 if 'average_tempo' in mood else 50 }},
+        
+        // Listening hours
+        hours: {
+            earlyMorning: {{ recent.hour_distribution.get(0, 0) + recent.hour_distribution.get(1, 0) + recent.hour_distribution.get(2, 0) }},
+            morning: {{ recent.hour_distribution.get(3, 0) + recent.hour_distribution.get(4, 0) + recent.hour_distribution.get(5, 0) }},
+            lateMorning: {{ recent.hour_distribution.get(6, 0) + recent.hour_distribution.get(7, 0) + recent.hour_distribution.get(8, 0) }},
+            noon: {{ recent.hour_distribution.get(9, 0) + recent.hour_distribution.get(10, 0) + recent.hour_distribution.get(11, 0) }},
+            afternoon: {{ recent.hour_distribution.get(12, 0) + recent.hour_distribution.get(13, 0) + recent.hour_distribution.get(14, 0) }},
+            evening: {{ recent.hour_distribution.get(15, 0) + recent.hour_distribution.get(16, 0) + recent.hour_distribution.get(17, 0) }},
+            night: {{ recent.hour_distribution.get(18, 0) + recent.hour_distribution.get(19, 0) + recent.hour_distribution.get(20, 0) }},
+            lateNight: {{ recent.hour_distribution.get(21, 0) + recent.hour_distribution.get(22, 0) + recent.hour_distribution.get(23, 0) }}
+        }
     };
 </script>
 

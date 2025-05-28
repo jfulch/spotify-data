@@ -15,35 +15,46 @@ def get_top_artists(spotify_client, time_range='medium_term', limit=20):
     
     return artists
 
-def analyze_genre_distribution(artists_data):
-    """
-    Analyze genre distribution from a list of artists
+# Look for this function and update it:
+def analyze_genre_distribution(sp):
+    """Analyze the distribution of genres in a user's top artists"""
+    # ISSUE: artists_data is being treated as an iterable, but it's the Spotify client
     
-    Parameters:
-    - artists_data: List of artist dictionaries from get_top_artists()
+    # Replace the function with this corrected version:
+    genre_counts = {}
+    total_genres = 0
     
-    Returns:
-    - List of (genre, count) tuples sorted by count
-    """
-    genres = {}
+    # Get the user's top artists from different time ranges
+    time_ranges = ['short_term', 'medium_term', 'long_term']
     
-    # Count genres
-    for artist in artists_data:
-        # Split genres (they might be in "genre1, genre2" format from get_top_artists)
-        artist_genres = artist['genres'].split(', ')
+    for time_range in time_ranges:
+        # Correctly get artists data from the Spotify client
+        results = sp.current_user_top_artists(time_range=time_range, limit=50)
         
-        for genre in artist_genres:
-            if genre == 'No genres available':
-                continue
-                
-            if genre in genres:
-                genres[genre] += 1
-            else:
-                genres[genre] = 1
+        # Now iterate through the actual artist items
+        for artist in results['items']:
+            if 'genres' in artist:
+                for genre in artist['genres']:
+                    if genre in genre_counts:
+                        genre_counts[genre] += 1
+                    else:
+                        genre_counts[genre] = 1
+                    total_genres += 1
     
-    # Sort by count
-    sorted_genres = sorted(genres.items(), key=lambda x: x[1], reverse=True)
-    return sorted_genres[:10]  # Return top 10 genres
+    # Calculate percentages and sort
+    genre_percentages = {genre: (count / total_genres) * 100 
+                         for genre, count in genre_counts.items()}
+    
+    # Sort genres by percentage (descending)
+    sorted_genres = sorted(genre_percentages.items(), 
+                          key=lambda x: x[1], 
+                          reverse=True)
+    
+    return {
+        'genre_counts': genre_counts,
+        'genre_percentages': genre_percentages,
+        'sorted_genres': sorted_genres[:20]  # Top 20 genres
+    }
 
 def format_number(num):
     """Format large numbers for display (e.g., 1234567 -> 1.2M)"""
